@@ -1,4 +1,7 @@
-const API_URL = 'http://localhost:5000/api';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const API_URL = process.env.API_URL || 'http://localhost:5000/api';
 
 const getHeaders = () => {
   const token = localStorage.getItem('token');
@@ -28,7 +31,7 @@ export const authAPI = {
     });
     return handleResponse(res);
   },
-  
+
   register: async (username, email, password) => {
     const res = await fetch(`${API_URL}/auth/register`, {
       method: 'POST',
