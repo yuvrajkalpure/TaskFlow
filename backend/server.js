@@ -4,9 +4,14 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const taskRoutes = require('./routes/taskRoutes');
+const morgan = require('morgan');
+
 
 // Load environment variables
 dotenv.config();
+
+// morgan middleware 
+app.use(morgan('dev'));
 
 // Connect to MongoDB
 connectDB();
