@@ -10,13 +10,14 @@ const morgan = require('morgan');
 // Load environment variables
 dotenv.config();
 
-// morgan middleware 
-app.use(morgan('dev'));
-
 // Connect to MongoDB
 connectDB();
 
 const app = express();
+
+
+// Morgan Middleware 
+app.use(morgan('dev'));
 
 // Middleware
 app.use(cors({
