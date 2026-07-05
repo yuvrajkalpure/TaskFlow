@@ -116,7 +116,7 @@ const AppContent = () => {
   }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
+    <div style={{ display: 'flex', height: user ? '100vh' : 'auto', minHeight: '100vh', flexDirection: 'column', overflow: user ? 'hidden' : 'visible' }}>
       
       {/* Backend connection failure banner */}
       {!backendConnected && (

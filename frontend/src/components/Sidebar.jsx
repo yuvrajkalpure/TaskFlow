@@ -7,16 +7,27 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, onClose }) => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
+  const [suggestions, setSuggestions] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
+    if (rating === 0) {
+      alert('Please select a rating');
+      return;
+    }
+
     setSubmitting(true);
     try {
-      await feedbackAPI.submitFeedback(rating, comment);
+      const fullComment = suggestions.trim()
+        ? `${comment.trim()}\n\nSuggestions/Changes:\n${suggestions.trim()}`
+        : comment.trim();
+
+      await feedbackAPI.submitFeedback(rating, fullComment);
       setSuccess(true);
       setComment('');
+      setSuggestions('');
       setRating(5);
       setTimeout(() => {
         setShowFeedbackModal(false);
@@ -165,10 +176,22 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, onClose }) => {
                     id="feedback-comment"
                     className="form-control"
                     placeholder="Tell us what you think of TaskFlow..."
-                    rows="4"
+                    rows="3"
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     required
+                  ></textarea>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="feedback-suggestions">Suggested Changes & Improvements</label>
+                  <textarea
+                    id="feedback-suggestions"
+                    className="form-control"
+                    placeholder="What changes or improvements would you suggest for our site?"
+                    rows="3"
+                    value={suggestions}
+                    onChange={(e) => setSuggestions(e.target.value)}
                   ></textarea>
                 </div>
 
