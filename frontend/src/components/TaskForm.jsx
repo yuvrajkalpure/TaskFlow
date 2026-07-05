@@ -6,19 +6,30 @@ const TaskForm = ({ task, onSave, onClose }) => {
     description: '',
     status: 'Pending',
     priority: 'Medium',
-    dueDate: ''
+    dueDate: '',
+    dueTime: '12:00'
   });
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (task) {
-      const formattedDate = task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : '';
+      const dateObj = task.dueDate ? new Date(task.dueDate) : null;
+      const formattedDate = dateObj ? dateObj.toISOString().split('T')[0] : '';
+      
+      let formattedTime = '12:00';
+      if (dateObj) {
+        const hours = dateObj.getHours().toString().padStart(2, '0');
+        const minutes = dateObj.getMinutes().toString().padStart(2, '0');
+        formattedTime = `${hours}:${minutes}`;
+      }
+
       setFormData({
         title: task.title || '',
         description: task.description || '',
         status: task.status || 'Pending',
         priority: task.priority || 'Medium',
-        dueDate: formattedDate
+        dueDate: formattedDate,
+        dueTime: formattedTime
       });
     } else {
       const tomorrow = new Date();
@@ -28,7 +39,8 @@ const TaskForm = ({ task, onSave, onClose }) => {
         description: '',
         status: 'Pending',
         priority: 'Medium',
-        dueDate: tomorrow.toISOString().split('T')[0]
+        dueDate: tomorrow.toISOString().split('T')[0],
+        dueTime: '12:00'
       });
     }
   }, [task]);
@@ -59,7 +71,16 @@ const TaskForm = ({ task, onSave, onClose }) => {
       return;
     }
 
-    onSave(formData);
+    // Combine date and time
+    const combinedDate = new Date(`${formData.dueDate}T${formData.dueTime || '12:00'}`);
+
+    onSave({
+      title: formData.title,
+      description: formData.description,
+      status: formData.status,
+      priority: formData.priority,
+      dueDate: combinedDate.toISOString()
+    });
   };
 
   return (
@@ -135,17 +156,32 @@ const TaskForm = ({ task, onSave, onClose }) => {
             </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="task-due">Due Date</label>
-            <input
-              type="date"
-              id="task-due"
-              name="dueDate"
-              className="form-control"
-              value={formData.dueDate}
-              onChange={handleChange}
-            />
-            {errors.dueDate && <span className="error-text" style={{ color: 'var(--priority-high)', fontSize: '0.8rem' }}>{errors.dueDate}</span>}
+          {/* Grid display for Date and Time side-by-side */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <div className="form-group">
+              <label htmlFor="task-due">Due Date</label>
+              <input
+                type="date"
+                id="task-due"
+                name="dueDate"
+                className="form-control"
+                value={formData.dueDate}
+                onChange={handleChange}
+              />
+              {errors.dueDate && <span className="error-text" style={{ color: 'var(--priority-high)', fontSize: '0.8rem' }}>{errors.dueDate}</span>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="task-time">Due Time</label>
+              <input
+                type="time"
+                id="task-time"
+                name="dueTime"
+                className="form-control"
+                value={formData.dueTime}
+                onChange={handleChange}
+              />
+            </div>
           </div>
 
           <div className="modal-footer">

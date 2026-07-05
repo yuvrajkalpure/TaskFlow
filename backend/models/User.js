@@ -22,6 +22,56 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Password is required'],
     minlength: [6, 'Password must be at least 6 characters long']
   },
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user'
+  },
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
+  otp: {
+    type: String,
+    default: null
+  },
+  otpExpires: {
+    type: Date,
+    default: null
+  },
+  profilePhoto: {
+    type: String,
+    default: null // Base64 Data URI
+  },
+  theme: {
+    type: String,
+    enum: ['dark', 'light'],
+    default: 'dark'
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false
+  },
+  sessions: [
+    {
+      token: {
+        type: String,
+        required: true
+      },
+      deviceInfo: {
+        type: String,
+        default: 'Unknown Device'
+      },
+      ipAddress: {
+        type: String,
+        default: '127.0.0.1'
+      },
+      lastActive: {
+        type: Date,
+        default: Date.now
+      }
+    }
+  ],
   createdAt: {
     type: Date,
     default: Date.now

@@ -7,20 +7,27 @@ TaskFlow is a premium, fully responsive full-stack MERN (MongoDB, Express, React
 ## 🚀 Key Features
 
 - **Full CRUD Support**: Create, read, update, and delete tasks dynamically.
-- **User Authentication**: Secure user registration and login with passwords hashed using `bcryptjs` and session tokens signed using JWT (JSON Web Tokens).
+- **User Authentication & OTP Verification**: Secure user registration with passwords hashed using `bcryptjs` and session tokens signed using JWT (JSON Web Tokens). Accounts are registered as unverified, requiring a 6-digit OTP verification code sent via email (or logged to the developer console) to activate and log in.
+- **Profile Photo Uploader**: Support uploading and encoding custom user profile pictures as compressed Base64 Data URIs, saved directly in the MongoDB profile record.
+- **Dynamic Sidebar & Bottom Navigation**: Spotify-style navigation bar shifting from a left vertical sidebar on desktop viewports to a compact bottom navigation bar on mobile viewports. Provides quick access to Home tasks, Profile, and Devices tabs.
+- **Active Devices Session Inspector**: Users can view all active devices (operating system name, browser name, IP address, and login time) currently logged into their account, and revoke any session.
+- **Self-Account Deactivation**: Soft deactivation (soft delete) where a user can deactivate their account; the database preserves their records, but log-ins are blocked.
+- **Password Reset & Recovery**: Form to change passwords when logged in, and a forgot-password recovery system that verifies users using a secure OTP code.
+- **Admin Control Panel**: Logs in with administrator credentials (`****` / `****`) to view all registered users and their details, activate/deactivate any user, and view average feedback scores and comments.
+- **Theme Database Persistence**: Preferred user themes (Light or Dark mode) are stored in their database record, allowing their preferences to persist across all logged-in devices.
+- **Offline Banner Indicator**: Front-end checks connectivity to the backend and renders an offline warning banner at the top of the screen if the REST API goes offline.
+- **Mobile-Responsive Task ordering**: Rearranges the dashboard order on mobile viewports (`max-width: 768px`) using CSS Flexbox so that **active Tasks are displayed at the very top**, followed by filter controls, and stats counters at the bottom.
 - **Search & Filters**: Instantly search tasks by title/description and filter by completion status or priority level.
 - **Custom Sorting**: Sort tasks by Due Date, Creation Date, Alphabetical Title, and Priority weight (High > Medium > Low).
 - **Dynamic Stats Board**: Real-time counter metrics tracking total, pending, in-progress, completed, and overdue tasks with an overall completion rate indicator.
-- **Responsive Layout**: Designed using CSS Flexbox/Grid for a consistent look across mobile, tablet, and desktop viewports.
-- **Premium Aesthetics**: Glassmorphism cards, HSL color tokens, custom scrollbars, subtle box-shadow glows, hover transitions, and a theme switcher (Light vs Dark mode).
 - **Third-Party Vector Icons**: Integrates Boxicons for clean vector iconography (no emojis used).
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React.js (scaffolded with Vite), Vanilla CSS (responsive, custom-tailored theme system), Boxicons CSS.
-- **Backend**: Node.js + Express.js REST API.
+- **Frontend**: React.js (scaffolded with Vite), Vanilla CSS (responsive bottom navbar layouts), Boxicons CSS.
+- **Backend**: Node.js + Express.js REST API, Nodemailer SMTP service.
 - **Database**: MongoDB (Mongoose ODM).
 
 ---

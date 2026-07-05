@@ -83,11 +83,13 @@ const Login = ({ setView }) => {
           </button>
         </form>
 
-        <div className="auth-footer">
-          Don't have an account?{' '}
-          <a href="#" onClick={(e) => { e.preventDefault(); setView('register'); }}>
-            Register here
-          </a>
+        <div className="auth-footer" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <div>
+            Don't have an account?{' '}
+            <a href="#" onClick={(e) => { e.preventDefault(); setView('register'); }}>
+              Register here
+            </a>
+          </div>
         </div>
       </div>
     </div>

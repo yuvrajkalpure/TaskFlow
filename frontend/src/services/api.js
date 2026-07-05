@@ -36,6 +36,32 @@ export const authAPI = {
       body: JSON.stringify({ username, email, password })
     });
     return handleResponse(res);
+  },
+
+  forgotPassword: async (email) => {
+    const res = await fetch(`${API_URL}/auth/forgot-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    return handleResponse(res);
+  },
+
+  resetPasswordOTP: async (email, otp, newPassword) => {
+    const res = await fetch(`${API_URL}/auth/reset-password-otp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, otp, newPassword })
+    });
+    return handleResponse(res);
+  },
+
+  logout: async () => {
+    const res = await fetch(`${API_URL}/auth/logout`, {
+      method: 'POST',
+      headers: getHeaders()
+    });
+    return handleResponse(res);
   }
 };
 
@@ -76,6 +102,95 @@ export const taskAPI = {
   deleteTask: async (id) => {
     const res = await fetch(`${API_URL}/tasks/${id}`, {
       method: 'DELETE',
+      headers: getHeaders()
+    });
+    return handleResponse(res);
+  }
+};
+
+export const userAPI = {
+  updateProfilePhoto: async (profilePhoto) => {
+    const res = await fetch(`${API_URL}/users/profile/photo`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify({ profilePhoto })
+    });
+    return handleResponse(res);
+  },
+
+  updateTheme: async (theme) => {
+    const res = await fetch(`${API_URL}/users/profile/theme`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify({ theme })
+    });
+    return handleResponse(res);
+  },
+
+  resetPassword: async (oldPassword, newPassword) => {
+    const res = await fetch(`${API_URL}/users/profile/reset-password`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify({ oldPassword, newPassword })
+    });
+    return handleResponse(res);
+  },
+
+  getSessions: async () => {
+    const res = await fetch(`${API_URL}/users/profile/sessions`, {
+      method: 'GET',
+      headers: getHeaders()
+    });
+    return handleResponse(res);
+  },
+
+  revokeSession: async (sessionId) => {
+    const res = await fetch(`${API_URL}/users/profile/sessions/${sessionId}`, {
+      method: 'DELETE',
+      headers: getHeaders()
+    });
+    return handleResponse(res);
+  },
+
+  deactivateAccount: async () => {
+    const res = await fetch(`${API_URL}/users/profile/deactivate`, {
+      method: 'DELETE',
+      headers: getHeaders()
+    });
+    return handleResponse(res);
+  },
+
+  adminGetUsers: async () => {
+    const res = await fetch(`${API_URL}/users/admin/list`, {
+      method: 'GET',
+      headers: getHeaders()
+    });
+    return handleResponse(res);
+  },
+
+  adminToggleDeactivate: async (userId, isDeleted) => {
+    const res = await fetch(`${API_URL}/users/admin/deactivate/${userId}`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify({ isDeleted })
+    });
+    return handleResponse(res);
+  }
+};
+
+export const feedbackAPI = {
+  submitFeedback: async (rating, comment) => {
+    const res = await fetch(`${API_URL}/feedback`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ rating, comment })
+    });
+    return handleResponse(res);
+  },
+
+  getFeedbackList: async () => {
+    const res = await fetch(`${API_URL}/feedback`, {
+      method: 'GET',
       headers: getHeaders()
     });
     return handleResponse(res);

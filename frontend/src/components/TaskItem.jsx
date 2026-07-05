@@ -5,16 +5,25 @@ const TaskItem = ({ task, onEdit, onDelete, onStatusToggle }) => {
 
   const isOverdue = () => {
     if (status === 'Completed') return false;
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const now = new Date();
     const dDate = new Date(dueDate);
-    dDate.setHours(0, 0, 0, 0);
-    return dDate < today;
+    return dDate < now;
   };
 
   const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    if (!dateString) return '';
+    const dateObj = new Date(dateString);
+    const datePart = dateObj.toLocaleDateString(undefined, { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric' 
+    });
+    const timePart = dateObj.toLocaleTimeString(undefined, { 
+      hour: 'numeric', 
+      minute: '2-digit', 
+      hour12: true 
+    });
+    return `${datePart} at ${timePart}`;
   };
 
   const handleCheckboxChange = () => {

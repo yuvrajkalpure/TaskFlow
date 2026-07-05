@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 
-const Register = ({ setView }) => {
+const Register = ({ setView, setAuthEmail }) => {
   const { register } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     username: '',
