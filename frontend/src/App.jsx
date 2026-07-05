@@ -116,7 +116,7 @@ const AppContent = () => {
   }
 
   return (
-    <div style={{ display: 'flex', height: user ? '100vh' : 'auto', minHeight: '100vh', flexDirection: 'column', overflow: user ? 'hidden' : 'visible' }}>
+    <div style={{ display: 'flex', height: (user && !isMobile) ? '100vh' : 'auto', minHeight: '100vh', flexDirection: 'column', overflow: (user && !isMobile) ? 'hidden' : 'visible' }}>
       
       {/* Backend connection failure banner */}
       {!backendConnected && (
@@ -141,7 +141,7 @@ const AppContent = () => {
             onClose={() => setSidebarOpen(false)}
           />
           
-          <div className="main-content-wrapper" style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+          <div className="main-content-wrapper" style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflowY: isMobile ? 'visible' : 'auto', height: isMobile ? 'auto' : '100vh' }}>
              {/* Header / Top Fixed Navbar */}
             <header 
               className="app-header" 
