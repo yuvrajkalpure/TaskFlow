@@ -5,7 +5,6 @@ import Register from './components/Auth/Register';
 import Dashboard from './components/Dashboard';
 import Sidebar from './components/Sidebar';
 import Profile from './components/Profile';
-import Devices from './components/Devices';
 import AdminDashboard from './components/AdminDashboard';
 import './App.css';
 
@@ -18,6 +17,16 @@ const AppContent = () => {
   const [theme, setTheme] = useState('dark');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  // Responsive mobile width tracker
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Check connectivity with backend
   useEffect(() => {
@@ -133,14 +142,26 @@ const AppContent = () => {
           />
           
           <div className="main-content-wrapper" style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-            {/* Header / Top Fixed Navbar */}
-            <header className="app-header" style={{ padding: '1rem 2rem', display: 'flex', alignItems: 'center' }}>
+             {/* Header / Top Fixed Navbar */}
+            <header 
+              className="app-header" 
+              style={{ 
+                padding: '1rem 2rem', 
+                display: 'flex', 
+                alignItems: 'center',
+                position: 'sticky',
+                top: 0,
+                zIndex: 1000,
+                background: 'var(--bg-secondary)',
+                borderBottom: '1px solid var(--border-color)'
+              }}
+            >
               
               {/* Sidebar drawer toggle button */}
               <button 
                 className="sidebar-toggle" 
                 onClick={() => {
-                  if (window.innerWidth <= 768) {
+                  if (isMobile) {
                     setSidebarOpen(!sidebarOpen);
                   } else {
                     setSidebarCollapsed(!sidebarCollapsed);
@@ -149,7 +170,7 @@ const AppContent = () => {
                 title="Toggle Menu"
                 style={{ marginRight: '1rem' }}
               >
-                <i className={sidebarOpen ? "bx bx-x" : "bx bx-menu"}></i>
+                <i className={(isMobile ? sidebarOpen : !sidebarCollapsed) ? "bx bx-x" : "bx bx-menu"}></i>
               </button>
 
               <div 
@@ -202,7 +223,6 @@ const AppContent = () => {
             <div className="app-container" style={{ flex: '1 0 auto', padding: '2rem' }}>
               {activeTab === 'home' && <Dashboard />}
               {activeTab === 'profile' && <Profile />}
-              {activeTab === 'devices' && <Devices />}
               {activeTab === 'admin' && user.role === 'admin' && <AdminDashboard />}
             </div>
 

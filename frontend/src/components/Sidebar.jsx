@@ -91,12 +91,6 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, onClose }) => {
             <i className="bx bx-user"></i> <span>Profile</span>
           </button>
 
-          <button
-            className={`nav-link ${activeTab === 'devices' ? 'active' : ''}`}
-            onClick={() => setActiveTab('devices')}
-          >
-            <i className="bx bx-devices"></i> <span>Devices</span>
-          </button>
 
           {user && user.role === 'admin' && (
             <button
